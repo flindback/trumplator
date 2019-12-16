@@ -1,3 +1,5 @@
+package server;
+
 import static spark.Spark.*;
 
 public class API {
