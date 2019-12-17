@@ -20,6 +20,11 @@ public class API {
     }
 
     private void startServer() {
+
+        before((req, res) -> {
+            res.header("Access-Control-Allow-Origin", "*");
+        });
+
         port(5000);
         get("/", (req, res) -> {
             List<Status> statuses = twitter.getUserTimeline("realDonaldTrump");
