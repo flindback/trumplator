@@ -20,20 +20,20 @@ public class APIHelper {
 
     static void writeToken(TwitterToken token) {
         try {
-            ObjectOutputStream oos = new ObjectOutputStream((new FileOutputStream("conf/access.tok")));
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("conf/access.tok"));
             oos.writeObject(token);
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    static String getKey(Key key) {
+    static String getTwitterKey(Key key) {
         String ret = null;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("conf/twitter.key"), "ISO-8859-1"));
             String input;
 
-            while( ( input = br.readLine() ) != null ) {
+            while ((input = br.readLine()) != null) {
                 String strIdent = input.split(":")[0];
                 if (key == Key.API_key && strIdent.equals("API key"))
                     ret = input.split(":")[1];
@@ -47,6 +47,17 @@ public class APIHelper {
             br.close();
         } catch (Exception e) {
             System.out.println(e);
+        }
+        return ret;
+    }
+
+    public static String getApiKey() {
+        String ret = null;
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("conf/rapidapi.key"), "ISO-8859-1"));
+            ret = br.readLine();
+        } catch (Exception e) {
+            System.out.println("getApiKey error: " + e);
         }
         return ret;
     }
