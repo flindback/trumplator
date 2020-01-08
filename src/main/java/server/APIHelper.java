@@ -51,10 +51,10 @@ public class APIHelper {
         return ret;
     }
 
-    public static String getApiKey() {
+    public static String getApiKey(String file) {
         String ret = null;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("conf/rapidapi.key"), "ISO-8859-1"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(String.format("conf/%s.key", file)), "ISO-8859-1"));
             ret = br.readLine();
         } catch (Exception e) {
             System.out.println("getApiKey error: " + e);

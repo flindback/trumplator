@@ -1,6 +1,7 @@
 package server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
@@ -56,17 +57,34 @@ public class API {
         });
 
         get("/", (req, res) -> {
+            JsonObject jsonObj = new JsonObject();
+
             String tweet = getTweet();
             System.out.println("Tweet: " + tweet);
-            tweet = yodaTranslate(tweet);
+            String translation = yodaTranslate(tweet);
             System.out.println("Translated: " + tweet);
-            return tweet;
+            OpenWeather weather = weather();
+
+            jsonObj.addProperty("tweet", tweet);
+            jsonObj.addProperty("translation", translation);
+            jsonObj.addProperty("main", weather.getMain());
+            jsonObj.addProperty("description", weather.toString());
+            return jsonObj;
         });
+    }
+
+    public OpenWeather weather() {
+        String key = getApiKey("openweather");
+        String location = "5815135";
+        String url = String.format("http://api.openweathermap.org/data/2.5/weather?id=%s&APPID=%s", location, key);
+        HttpResponse request = Unirest.get(url).asJson();
+        OpenWeather weather = gson.fromJson(request.getBody().toString(), OpenWeather.class);
+        return weather;
     }
 
     public String translate(String input) {
         String url = String.format("https://api.funtranslations.com/translate/yoda.json?text=%s", URLEncoder.encodeUTF8(input));
-        System.out.println(url);
+        //System.out.println(url);
         HttpResponse request = Unirest.post(url).asJson();
         if (request.getBody().toString().contains("error"))
             return input + " (Translation malfunction)";
@@ -79,8 +97,8 @@ public class API {
 
     public String yodaTranslate(String input) {
         String url = "https://yodish.p.rapidapi.com/yoda.json";
-        String key = getApiKey();
-        System.out.println("Key: " + key);
+        String key = getApiKey("rapidapi");
+        //System.out.println("Key: " + key);
         HttpResponse request = Unirest.post(url)
                 .header("x-rapidapi-host", "yodish.p.rapidapi.com")
                 .header("x-rapidapi-key", key)
@@ -103,7 +121,7 @@ public class API {
                     .header("accept", "application/json")
                     .body("grant_type=client_credentials").asJson();
 
-            System.out.println(request.getStatusText());
+            //System.out.println(request.getStatusText());
             accessToken = gson.fromJson(request.getBody().toString(), TwitterToken.class);
             writeToken(accessToken);
         }
@@ -115,9 +133,9 @@ public class API {
         for (int i = 0; i < 10 && tweets.length < 1; i++) {
             HttpResponse request = Unirest.get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=realDonaldTrump&count=100&tweet_mode=extended&exclude_replies=true&include_rts=false")
                     .header("Authorization", "Bearer " + bearerToken).asJson();
-            System.out.println(request.getStatusText());
+            //System.out.println(request.getStatusText());
             tweets = gson.fromJson(request.getBody().toString(), Tweet[].class);
-            System.out.println(tweets.length);
+            //System.out.println(tweets.length);
         }
         if (tweets.length > 0) {
             String res = tweets[0].toString();
