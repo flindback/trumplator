@@ -23,7 +23,8 @@ class App extends Component {
   }
 
   render() {
-    return <CalendarContainer />;
+    //return <CalendarContainer />;
+    return <p>{this.state.text}</p>;
   }
 }
 

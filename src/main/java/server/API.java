@@ -56,6 +56,7 @@ public class API {
         });
 
         get("/", (req, res) -> {
+        	System.out.println("Hej!");
             String tweet = getTweet();
             System.out.println("Tweet: " + tweet);
             tweet = yodaTranslate(tweet);
