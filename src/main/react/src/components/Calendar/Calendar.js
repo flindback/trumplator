@@ -18,7 +18,15 @@ class Calendar extends Component {
               >
                 {window.isOpen ? "" : window.label}
               </div>
-              <div className="window-content"></div>
+              <div
+                className={
+                  window.isOpen
+                    ? "window-content-open"
+                    : "window-content-closed"
+                }
+              >
+                <p>{this.props.text}</p>
+              </div>
             </div>
           );
         })}

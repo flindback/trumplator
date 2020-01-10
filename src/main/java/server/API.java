@@ -57,8 +57,12 @@ public class API {
         });
 
         get("/", (req, res) -> {
+<<<<<<< HEAD
+        	System.out.println("Hej!");
+=======
             JsonObject jsonObj = new JsonObject();
 
+>>>>>>> 17971910a34558e0a744c44d4742c710ee83d0f6
             String tweet = getTweet();
             System.out.println("Tweet: " + tweet);
             String translation = yodaTranslate(tweet);

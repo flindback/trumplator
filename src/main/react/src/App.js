@@ -13,17 +13,19 @@ class App extends Component {
   componentDidMount() {
     fetch("http://localhost:5000/")
       .then(response => {
-        return response.text();
+        return response.json();
       })
-      .then(text => {
+      .then(data => {
         this.setState({
-          text: text
+          text: data.translation,
+          weather: data.main
         });
       });
   }
 
   render() {
-    return <CalendarContainer />;
+    return <CalendarContainer text={this.state.text} />;
+    //return <p>{this.state.text}</p>;
   }
 }
 

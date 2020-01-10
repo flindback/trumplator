@@ -37,3 +37,7 @@
   transform: rotate3d(0, 1, 0, 120deg);
   transform-origin: 100%;
 }
+
+.window-content-closed {
+  display: none;
+}

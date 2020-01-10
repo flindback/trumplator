@@ -41,7 +41,11 @@ class CalendarContainer extends Component {
 
   render() {
     return (
-      <Calendar windows={this.state.windows} openWindow={this.openWindow} />
+      <Calendar
+        windows={this.state.windows}
+        openWindow={this.openWindow}
+        text={this.props.text}
+      />
     );
   }
 }
