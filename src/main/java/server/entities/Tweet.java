@@ -1,4 +1,4 @@
-package server;
+package server.entities;
 
 public class Tweet {
     private String full_text;

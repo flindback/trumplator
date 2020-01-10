@@ -1,4 +1,4 @@
-package server;
+package server.entities;
 
 public class Translation {
     private String translated;

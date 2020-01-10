@@ -1,13 +1,17 @@
-package server;
+package server.helpers;
 
+import server.entities.TwitterToken;
 
 import java.io.*;
+import java.util.Base64;
 import java.util.Random;
 
 public class APIHelper {
     private static Random random = new Random();
+    private static String alphanumericals = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static String extraCharacters = ".? !#-_:;,()";
 
-    static TwitterToken readToken() {
+    public static TwitterToken readToken() {
         TwitterToken token = null;
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream("conf/access.tok"));
@@ -18,7 +22,7 @@ public class APIHelper {
         return token;
     }
 
-    static void writeToken(TwitterToken token) {
+    public static void writeToken(TwitterToken token) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("conf/access.tok"));
             oos.writeObject(token);
@@ -27,7 +31,7 @@ public class APIHelper {
         }
     }
 
-    static String getTwitterKey(Key key) {
+    public static String getTwitterKey(Key key) {
         String ret = null;
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("conf/twitter.key"), "ISO-8859-1"));
@@ -63,18 +67,26 @@ public class APIHelper {
     }
 
     public static String generateNonce() {
+        byte[] nonce = new byte[32];
+        random.nextBytes(nonce);
+        String ret = Base64.getEncoder().encodeToString(nonce);
+        return cleanString(ret, alphanumericals);
+
+    }
+
+    public static String cleanString(String input, String filter) {
         StringBuilder sb = new StringBuilder();
-        int character;
-        for (int i = 0; i < 32; i++) {
-            character = random.nextInt(62);
-            if (character < 26)
-                sb.append((char) (character + 65));
-            else if (character < 52)
-                sb.append((char) (character + 71));
-            else
-                sb.append(character - 52);
+
+        for (int i = 0; i < input.length(); i++) {
+            CharSequence cs = input.substring(i, i + 1);
+            if (filter.contains(cs))
+                sb.append(cs);
         }
         return sb.toString();
+    }
+
+    public static String cleanTweet(String tweet) {
+        return cleanString(tweet, alphanumericals + extraCharacters);
     }
 
     public enum Key {

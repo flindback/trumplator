@@ -28,7 +28,7 @@
  * ------------
  * (C) Copyright 2006-2007, by Pentaho Corporation.
  */
-package server;
+package server.helpers;
 
 import java.io.UnsupportedEncodingException;
 
