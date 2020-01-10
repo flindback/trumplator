@@ -1,0 +1,43 @@
+.calendar {
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  font-size: 24px;
+}
+.calendar-container {
+  margin: 25px;
+  display: flex;
+  min-width: 100px;
+  min-height: 100px;
+  position: relative;
+  perspective: 1000px;
+}
+.calendar-window {
+  display: flex;
+  position: absolute;
+  background-color: pink;
+  min-height: 100px;
+  min-width: 100px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  transition: all 2000ms ease;
+  transform-origin: 100%;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+.window-content {
+  width: 100px;
+  height: 100px;
+}
+.is-open {
+  background-color: green;
+  transform: rotate3d(0, 1, 0, 120deg);
+  transform-origin: 100%;
+}
+
+.window-content-closed {
+  display: none;
+}

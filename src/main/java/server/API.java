@@ -67,7 +67,6 @@ public class API {
                 if (tweeter != null && tweeter.toString().toLowerCase().equals(paramTweeter.toLowerCase()))
                     strTweeter = tweeter.toString();
             }
-            JsonObject jsonObj = new JsonObject();
 
             String tweet;
             if (strTweeter != null)
@@ -76,6 +75,9 @@ public class API {
                 tweet = getTweet("realDonaldTrump");
 
             if (verbose) System.out.println("Tweet: " + tweet);
+
+            JsonObject jsonObj = new JsonObject();
+
             String translation = yodaTranslate(tweet);
             if (verbose) System.out.println("Translated: " + tweet);
 
