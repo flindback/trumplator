@@ -1,38 +1,195 @@
-.App {
-  text-align: center;
+body {
+  background-image: linear-gradient(
+    45deg,
+    #1da1f2 25%,
+    #1492e0 25%,
+    #1492e0 50%,
+    #1da1f2 50%,
+    #1da1f2 75%,
+    #1492e0 75%,
+    #1492e0 100%
+  );
+  background-size: 28.28px 28.28px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
+  max-height: 100px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 10px 0 10px;
+  box-shadow: 0px 5px 0 0 #0a4366;
+  background-color: #116294;
+}
+
+.logo {
+  max-height: 100px;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  align-items: center;
+  margin: 20px 0 0 0;
+}
+
+.tweet-card {
+  display: flex;
+  position: relative;
+  max-width: 700px;
+  min-width: 700px;
+  margin: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 10px 10px #116294;
+}
+
+.tweeter-name {
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+}
+
+.tweeter-name__input {
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+}
+.tweeter-text {
+}
+
+.tweet-image {
+  max-width: 250px;
+  max-height: 250px;
+  min-width: 250px;
+  min-height: 250px;
+  border-radius: 10px 0 0 10px;
+}
+
+.tweet-profile-image {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 6px 0 6px 0px;
+  transform: scale(1.2);
+  transform-origin: 0 0;
+  box-shadow: 0px 3px 10px #000;
+}
+.tweet-card__content {
+  padding: 20px;
+}
+
+.weather-box {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  right: -20px;
+  top: -20px;
+  border-radius: 100px;
+  background-color: #666;
+}
+
+.weather-box__text {
+  margin: 10px 10px 10px 20px;
+  color: white;
+  font-weight: 700;
+}
+.weather-box__input {
+  margin: 10px 10px 10px 20px;
+  max-width: 120px;
+  border: none;
+  font-size: 18px;
+  outline: none;
+  background-color: transparent;
+  color: white;
+  box-shadow: 0 1px 0 #ccc;
+}
+.weather-box__input::placeholder {
+  color: #ccc;
+}
+.weather-box__input:focus {
+  box-shadow: 0 1px 0 #fff;
+}
+.fas {
+  font-size: 40px;
+  margin: 10px;
+}
+.fa-question {
+  color: white;
+}
+.fa-bolt {
+  color: #ffff00;
+}
+.fa-cloud {
+  color: #eee;
+}
+.fa-snowflake {
+  color: #7bc4f1;
+}
+.fa-cloud-showers-heavy {
+  color: #404068;
+}
+.fa-cloud-sun-rain {
+  color: #8888aa;
+}
+.fa-skull-crossbones {
+  color: red;
+}
+
+.fa-sun {
+  color: #ffff00;
+}
+
+.fa-redo {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+#refresh-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  padding: 8px;
+  border: 4px solid white;
+  background-color: transparent;
+  border-radius: 50%;
+  transition: all 400ms ease;
+  cursor: pointer;
+  outline: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#refresh-button:hover,
+#refresh-button:focus {
+  transform: rotate(360deg);
+  background-color: #116294;
+}
+
+#refresh-button:active {
+  background-color: #073049;
+}
+
+.submit-button {
+  position: absolute;
+  display: block;
+  max-height: 80px;
+  max-width: 200px;
+  right: 10px;
+  bottom: 10px;
+  padding: 10px 20px;
+  font-size: 24px;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  background-color: #1da1f2;
+  color: white;
+}
+
+.submit-button:active {
+  outline: none;
+  background-color: #000000;
+}
+
+.submit-button:hover {
+  background-color: #116294;
 }
