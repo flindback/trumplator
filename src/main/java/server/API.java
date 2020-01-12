@@ -21,7 +21,7 @@ import static spark.Spark.*;
 public class API {
     private String bearerToken;
     private Gson gson = new Gson();
-    private boolean verbose = false;
+    private boolean verbose = true;
 
     public static void main(String[] args) {
         API api = new API();
@@ -61,18 +61,15 @@ public class API {
 
             String paramTweeter = req.queryParams("t");
             String paramCity = req.queryParams("c");
-            String strTweeter = null;
-            if (paramTweeter != null) {
-                Tweeter tweeter = getUser(paramTweeter);
-                if (tweeter != null && tweeter.toString().toLowerCase().equals(paramTweeter.toLowerCase()))
-                    strTweeter = tweeter.toString();
-            }
+            Tweeter tweeter = null;
 
-            String tweet;
-            if (strTweeter != null)
-                tweet = getTweet(strTweeter);
-            else
-                tweet = getTweet("realDonaldTrump");
+            if (paramTweeter != null)
+                tweeter = getUser(paramTweeter);
+
+            if (tweeter == null || !tweeter.toString().toLowerCase().equals(paramTweeter.toLowerCase()))
+                tweeter = getUser("realDonaldTrump");
+
+            String tweet = getTweet(tweeter);
 
             if (verbose) System.out.println("Tweet: " + tweet);
 
@@ -82,14 +79,24 @@ public class API {
             if (verbose) System.out.println("Translated: " + tweet);
 
             OpenWeather weather = null;
+            String cityOutput = null;
+
             if (paramCity != null)
                 weather = weather(paramCity);
 
-            if (weather == null)
+            if (weather == null) {
                 weather = weather();
+                cityOutput = "Washington";
+            } else
+                cityOutput = paramCity;
 
+            jsonObj.addProperty("tweeter", tweeter.toString());
+            jsonObj.addProperty("name", tweeter.getName());
+            jsonObj.addProperty("profile_image_url", tweeter.getProfileImageUrl());
+            jsonObj.addProperty("banner_image_url", tweeter.getProfileBannerUrl());
             jsonObj.addProperty("tweet", tweet);
             jsonObj.addProperty("translation", translation);
+            jsonObj.addProperty("city", cityOutput);
             jsonObj.addProperty("main", (weather != null ? weather.getMain() : "city not found"));
             jsonObj.addProperty("description", (weather != null ? weather.toString() : "city not found"));
             return jsonObj;
@@ -170,12 +177,12 @@ public class API {
         bearerToken = accessToken.getAccessToken();
     }
 
-    private String getTweet(String user) {
+    private String getTweet(Tweeter tweeter) {
 
         Tweet[] tweets = new Tweet[0];
         // Sometimes Twitter fails to supply tweets, so the program retries 10 times until success
         for (int i = 0; i < 10 && tweets.length < 1; i++) {
-            HttpResponse request = Unirest.get(String.format("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=100&tweet_mode=extended&exclude_replies=true&include_rts=false", user))
+            HttpResponse request = Unirest.get(String.format("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=100&tweet_mode=extended&exclude_replies=true&include_rts=false", tweeter.toString()))
                     .header("Authorization", "Bearer " + bearerToken).asJson();
             tweets = gson.fromJson(request.getBody().toString(), Tweet[].class);
             if (verbose) System.out.println("getTweet (number of tweets): " + tweets.length);
