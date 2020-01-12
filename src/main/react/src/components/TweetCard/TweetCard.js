@@ -25,7 +25,7 @@ const IMAGES = {
   ]
 };
 
-class App extends Component {
+class TweetCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,20 +34,39 @@ class App extends Component {
   }
 
   getImage(tweeter) {
-    var number = Math.floor(Math.random() * 3);
-    var image = IMAGES[tweeter][number];
-    return image;
+    console.log(tweeter);
+    if (
+      tweeter.name == "FLOTUS" ||
+      tweeter.name == "realDonaldTrump" ||
+      tweeter.name == "donaldjtrumpjr"
+    ) {
+      var number = Math.floor(Math.random() * 3);
+      var image = IMAGES[tweeter.name][number];
+      return image;
+    } else {
+      var number = Math.floor(Math.random() * 7 + 1);
+      var image = {
+        path: "/img/Yoda/yoda-" + number + ".png",
+        alt: "Picture of Yoda from Star Wars."
+      };
+      return image;
+    }
   }
 
   render() {
     const tweeter = this.props.tweeter;
-    var image = this.getImage(tweeter.name);
+    var image = this.getImage(tweeter);
     return (
       <div className="tweet-card">
         <div className="weather-box">
           <p className="weather-box__text">{tweeter.description}</p>
           <Weather weather={tweeter.weather} />
         </div>
+        <img
+          className="tweet-profile-image"
+          src={tweeter.image}
+          alt={"A picture of twitter user " + tweeter.name + "."}
+        />
         <img className="tweet-image" src={image.path} alt={image.alt} />
         <div className="tweet-card__content">
           <p className="tweeter-name">{tweeter.name}</p>
@@ -58,4 +77,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default TweetCard;

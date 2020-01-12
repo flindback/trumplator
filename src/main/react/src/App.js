@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import TweetCard from "./components/TweetCard/TweetCard.js";
+import TweetCardForm from "./components/TweetCard/TweetCardForm.js";
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class App extends Component {
   }
 
   getTweet(tweeter, location) {
-    fetch(`http://localhost:5000?t=${tweeter}&c=${location}`)
+    const defaultTweeter = tweeter.length ? tweeter : "realDonaldTrump";
+    const defaultLocation = location.length ? location : "washington";
+    fetch(`http://localhost:5000?t=${defaultTweeter}&c=${defaultLocation}`)
       .then(response => {
         return response.json();
       })
@@ -23,7 +26,8 @@ class App extends Component {
               name: tweeter,
               text: data.translation,
               weather: data.main,
-              description: data.description
+              description: data.description,
+              image: data.profile_image_url
             }
           ]
         });
@@ -50,6 +54,7 @@ class App extends Component {
           {this.state.tweeters.map((tweeter, i) => (
             <TweetCard key={i} tweeter={tweeter} />
           ))}
+          <TweetCardForm getTweet={this.getTweet.bind(this)} />
         </div>
         <button id="refresh-button" onClick={this.getTweets.bind(this)}>
           <i className="fas fa-redo"></i>
